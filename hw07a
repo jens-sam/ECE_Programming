@@ -82,3 +82,39 @@ def cal():
     
     axs[2].set_ylabel("Acceleration [m/s^2]")
     df.plot(x='time', y=['a_x', 'a_y', 'a_z'])
+    
+    # calculate for roll
+
+    df.insert(11, "roll", np.zeros(4000))
+    df.insert(12, "pitch", np.zeros(4000))
+    df.insert(13, "yaw", np.zeros(4000))
+
+    # meters per second and radians per second
+    df['roll'][1:] = integrate.cumtrapz((df['v_roll'] * c['v_roll_scale']), df['time'], dx=1.0, axis=-1, initial=None)
+    df['pitch'][1:] = integrate.cumtrapz((df['v_pitch'] * c['v_pitch_scale']), df['time'], dx=1.0, axis=-1, initial=None)
+    df['yaw'][1:] = integrate.cumtrapz((df['v_yaw'] * c['v_yaw_scale']), df['time'], dx=1.0, axis=-1, initial=None)
+
+    df.insert(17, "a_roll", np.zeros(4000))
+    df.insert(18, "a_pitch", np.zeros(4000))
+    df.insert(19, "a_yaw", np.zeros(4000))
+
+    # partial vroll / partial time = diff(vroll)/diff(time)
+    df['a_roll'][1:] = df['v_roll'].diff()/df['time'].diff()
+    df['a_pitch'][1:] = df['a_pitch'].diff()/df['time'].diff()
+    df['a_yaw'][1:] = df['a_yaw'].diff()/df['time'].diff()
+
+    # plotting yaw
+    fig, axs = plt.subplots(3)
+
+    axs[0].set_ylabel("Position [m]")
+    df.plot(x='time', y=['roll', 'pitch', 'yaw'], ax=axs[0])
+
+    axs[1].set_ylabel("Velocity [m/s]")
+    df.plot(x='time', y=['v_roll', 'v_pitch', 'v_yaw'], ax=axs[1])
+
+    axs[2].set_ylabel("Acceleration [m/s^2]")
+    df.plot(x='time', y=['a_roll', 'a_pitch', 'a_yaw'], ax=axs[2])
+
+    print(df)
+    plt.show()
+    df.to_csv(index=False)
