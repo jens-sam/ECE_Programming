@@ -17,3 +17,28 @@
 
     # integrate back to out csv file
     xyz_integrate = integrate.cumtrapz(ax, ay, az)
+
+
+def cal():
+
+    f = open("../test/cal.json")
+    cal = json.load(f)
+
+    # read file
+    df = pd.read_csv("../test/imu.csv")
+    
+    # data file time as variable
+    t = df['time']
+
+    #meters per second and radians per second
+    v_x[1:] = integrat.cumtrapz((df['a_x']*cal['a_x_scale']), t, dx=1.0, axis=-1, initial=None)
+    v_y = integrat.cumtrapz((df['a_y'] * cal['a_y_scale']), t, dx=1.0, axis=-1, initial=None)
+    v_z = integrat.cumtrapz((df['a_z'] * cal['a_z_scale']), t, dx=1.0, axis=-1, initial=None)
+
+    vx = np.zeros(len(df['a_x']))
+    vx[1:] = integrat.cumtrapz(y=ax, x=df['time'])
+    pdf = pd.df(np.array[x, vx, ax].transpose, columns=["x", "vx", "ax"])
+    
+    # integrate back to out csv file
+    xyz_position = integrate.cumtrapz((v_x, v_y, v_z), t, dx=1.0, axis=-1, initial=None)
+    print(xyz_position)
