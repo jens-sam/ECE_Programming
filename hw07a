@@ -1,0 +1,19 @@
+# updated main section
+
+ with open(calibration_file, "r") as f:
+        cal = json.load(f)
+
+    # df = pd.read_csv("imu.csv")
+    # read file
+    d = pd.read_csv(imu_file).to_numpy().transpose()
+    print(d)
+    # ax = df['a_x']*cal['a_x_scale']
+    # ax.to_numpy()
+
+    #meters per second and radians per second
+    ax = integrat.cumtrapz(df['a_x']*cal['a_x_scale'])
+    ay = integrat.cumtrapz(df['a_y'] * cal['a_y_scale'])
+    az = integrat.cumtrapz(df['a_z'] * cal['a_z_scale'])
+
+    # integrate back to out csv file
+    xyz_integrate = integrate.cumtrapz(ax, ay, az)
