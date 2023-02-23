@@ -72,3 +72,13 @@ def cal():
    df['z'][1:] = integrate.cumtrapz((df['v_z']), df['time'], dx=1.0, axis=-1, initial=None)
 
    print(df)
+    fig, axs = plt.subplots(3)
+    
+    axs[0].set_ylabel("Position [m]")
+    df.plot(x='time', y=['x', 'y', 'z'], ax=axs[0])
+
+    axs[1].set_ylabel("Velocity [m/s]")
+    df.plot(x='time', y=['v_x', 'v_y', 'v_z'], ax=axs[1])
+    
+    axs[2].set_ylabel("Acceleration [m/s^2]")
+    df.plot(x='time', y=['a_x', 'a_y', 'a_z'])
