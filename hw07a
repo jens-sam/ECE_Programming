@@ -42,3 +42,33 @@ def cal():
     # integrate back to out csv file
     xyz_position = integrate.cumtrapz((v_x, v_y, v_z), t, dx=1.0, axis=-1, initial=None)
     print(xyz_position)
+    
+    
+  def cal():
+
+   f = open("../test/cal.json")
+   c = json.load(f)
+
+   # read file
+   df = pd.read_csv("../test/imu.csv")
+
+   df.insert(2, "v_x", np.zeros(4000))
+   df.insert(3, "v_y", np.zeros(4000))
+   df.insert(4, "v_z", np.zeros(4000))
+
+   #meters per second and radians per second
+   df['v_x'][1:] = integrate.cumtrapz((df['a_x']*c['a_x_scale']), df['time'], dx=1.0, axis=-1, initial=None)
+   df['v_y'][1:] = integrate.cumtrapz((df['a_y'] * c['a_y_scale']), df['time'], dx=1.0, axis=-1, initial=None)
+   df['v_z'][1:] = integrate.cumtrapz((df['a_z'] * c['a_z_scale']), df['time'], dx=1.0, axis=-1, initial=None)
+
+
+   df.insert(5, "x", np.zeros(4000))
+   df.insert(6, "y", np.zeros(4000))
+   df.insert(7, "z", np.zeros(4000))
+
+   # integrate again for y values of v_x,y,z
+   df['x'][1:] = integrate.cumtrapz((df['v_x']), df['time'], dx=1.0, axis=-1, initial=None)
+   df['y'][1:] = integrate.cumtrapz((df['v_y']), df['time'], dx=1.0, axis=-1, initial=None)
+   df['z'][1:] = integrate.cumtrapz((df['v_z']), df['time'], dx=1.0, axis=-1, initial=None)
+
+   print(df)
