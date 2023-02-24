@@ -1,11 +1,11 @@
 # Real world data problem:
-**You were just hired by a large tech company which involves satellite navigation using Inertial Measurement Units (IMU). 
+** You were just hired by a large tech company which involves satellite navigation using Inertial Measurement Units (IMU). 
 
 An IMU consists of a 3 axis accelerometer and a 3 axis gyroscope. For example 3dm-gx5-10_datasheet_8400-0095_rev_l.pdf   But of course, that is a commercial IMU that you can buy off the shelf, your company makes much more precise devices to meet the needs of precision applications.
 
 Your job is to receive the raw IMU data and calculate and plot the position, orientation and velocity of the satellite as a function of time. 
 
-###The "Pose" consists of 6 dimension positions: 
+### The "Pose" consists of 6 dimension positions: 
 
 3 linear:  x, y, z in meters
 3 angular:  roll, pitch, yaw in radians
@@ -27,7 +27,7 @@ The data is converted to a digital ADC value which must be scaled to real value 
 
 The data from the IMU comes in samples with an associated timestamp and the 6 measured values.
 
-###Inputs:
+### Inputs:
 - IMU calibration data
 - Filename "cal.json"
 - all values are floats
@@ -40,7 +40,7 @@ The data from the IMU comes in samples with an associated timestamp and the 6 me
 - ADC values are signed integer ADC values
 - First row will be column labels
 
-###Output:
+### Output:
 
 - A csv file containing
 <timestamp>,<x>,<y>,<z>,<roll>,<pitch>,<yaw><v_x>,<v_y>,<v_z>,<v_roll>,<v_pitch>,<v_yaw>,<a_x>,<a_y>,<a_z>,<a_roll>,<a_pitch>,<a_yaw>\n
