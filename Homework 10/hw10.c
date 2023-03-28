@@ -1,1 +1,84 @@
-#
+#include <stdio.h>
+#include <stdlib.h>
+
+
+// creating a buffer function that will take 2 args of a
+// pointer to the buffer and the size of it.
+
+float circular_buffer_average(float *buffer, int size) {
+    float sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += buffer[i];
+    }
+    return sum / size;
+}
+
+
+int main(int argc, char *argv[]) {
+    if (argc != 4) {
+        printf("Usage: %s <input_filename> <output_filename> <buffer_size>\n", argv[0]);
+        return 1;
+    }
+
+    // creating args 1 2 3 for infile outfile and buffer
+    const char *input_filename = argv[1];
+    const char *output_filename = argv[2];
+    int buffer_size = atoi(argv[3]);
+
+    if (buffer_size <= 0) {
+        printf("Error: Buffer size must be a positive integer.\n");
+        return 1;
+    }
+
+    // reading the infile and catching an error if its NULL
+    FILE *input_file = fopen(input_filename, "r");
+    if (input_file == NULL) {
+        perror("Error opening input file");
+        return 1;
+    }
+
+    // writing to outfile and catching an error if its NULL
+    FILE *output_file = fopen(output_filename, "w");
+    if (output_file == NULL) {
+        perror("Error opening output file");
+        fclose(input_file);
+        return 1;
+    }
+
+    float *buffer = malloc(buffer_size * sizeof(float));
+    if (buffer == NULL) {
+        printf("Error: Unable to allocate memory for the buffer.\n");
+        fclose(input_file);
+        fclose(output_file);
+        return 1;
+    }
+
+    // Read from input_file into buffer and write from buffer into output_file
+    // ...
+
+    int input_count = 0;
+    int output_count = 0;
+    int buffer_index = 0;
+
+    float value;
+    while (fscanf(input_file, "%f", &value) == 1) {
+        buffer[buffer_index] = value;
+        buffer_index = (buffer_index + 1) % buffer_size;
+        input_count++;
+
+        if (input_count >= buffer_size) {
+            float average = circular_buffer_average(buffer, buffer_size);
+            fprintf(output_file, "%f\n", average);
+            output_count++;
+        }
+    }
+
+    printf("Input file contains %d values\n", input_count);
+    printf("Wrote %d values to output file\n", output_count);
+
+
+    free(buffer);
+    fclose(input_file);
+    fclose(output_file);
+    return 0;
+}
