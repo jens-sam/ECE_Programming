@@ -68,7 +68,7 @@ void studentPrint(Student *student) {
         printf("Error: NULL student\n");
         return;
     }
-    printf("%s %.2f\n", student->name, student->grade);
+    printf("%s\t%.2f\n", student->name, student->grade);
 }
 
 
@@ -84,10 +84,12 @@ void studentPrintList() {
 
 // #6. return the grade for the given student name
 float studentGetGrade(char *name) {
+    printf("got in the studentgetgradefunction");// delete print statement
     Student *found = studentFind(name);
     if (found != NULL) {
         return found->grade;
     }
+    printf("got through the studentgetgradefunction");// delete print statement
     return -1; // Return -1 if the student is not found
 }
 
@@ -102,7 +104,7 @@ void studentLoad(char *filename) {
     char name[50];
     float grade;
 
-    while (fscanf(file, "%49s %f", name, &grade) == 2) {
+    while (fscanf(file, "%49s\t%f", name, &grade) == 2) {
         studentAdd(name, grade);
     }
     fclose(file);
@@ -138,6 +140,7 @@ void studentDeleteList() {
 // print the average of all grades
 
 float studentGetAverage() {
+    printf("got in the studentgetaverage function"); // delete print statement
     int count = 0;
     float sum = 0;
     Student *current = head;
@@ -146,5 +149,8 @@ float studentGetAverage() {
         sum += current->grade;
         current = current->next;
     }
+    printf("got through the studentgetaverage function"); // delete print statement
     return (count == 0) ? 0 : sum / count;
 }
+
+
