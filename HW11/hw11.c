@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "hw11_lib.h"
+
+
+
 
 int main() {
     char command[10];
@@ -23,11 +27,16 @@ int main() {
                     printf("%.2f\n", grade);
                 }
             }
+                
         } else if (strcmp(command, "r") == 0) {
             scanf("%49s", name);
             studentRemove(name);
         } else if (strcmp(command, "p") == 0) {
-            studentPrintList();
+            if (head == NULL) {
+                printf("List is empty\n");
+            } else {
+                studentPrintList();
+            }
         } else if (strcmp(command, "c") == 0) {
             printf("%d\n", studentCount());
         } else if (strcmp(command, "d") == 0) {
