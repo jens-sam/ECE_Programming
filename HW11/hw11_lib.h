@@ -1,4 +1,3 @@
-
 // hw11_lib.h
 #ifndef HW11_LIB_H
 #define HW11_LIB_H
@@ -8,6 +7,9 @@ typedef struct Student {
     float grade;
     struct Student *next;
 } Student;
+
+//Student *head = NULL;
+extern Student *head;
 
 void studentAdd(char *name, float grade);
 void studentRemove(char *name);
