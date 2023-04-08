@@ -1,54 +1,73 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "hw11_lib.h"
 
 
-
-
-int main() {
-    char command[10];
+int main(void) {
+    char command= '\0';
+    char str[50];
     char name[50];
-    char filename[50];
+
     float grade;
-
-    printf("> ");
-    while (scanf("%s", command) != EOF) {
-        if (strcmp(command, "g") == 0) {
-            scanf("%49s", name);
-            if (strlen(name) > 0) {
-                grade = studentGetGrade(name);
-                if (grade != -1) {
-                    printf("%.2f\n", grade);
-                }
-            } else {
-                grade = studentGetAverage();
-                if (grade != -1) {
-                    printf("%.2f\n", grade);
-                }
-            }
-                
-        } else if (strcmp(command, "r") == 0) {
-            scanf("%49s", name);
-            studentRemove(name);
-        } else if (strcmp(command, "p") == 0) {
-            if (head == NULL) {
-                printf("List is empty\n");
-            } else {
-                studentPrintList();
-            }
-        } else if (strcmp(command, "c") == 0) {
-            printf("%d\n", studentCount());
-        } else if (strcmp(command, "d") == 0) {
-            studentDeleteList();
-        } else if (strcmp(command, "l") == 0) {
-            scanf("%49s", filename);
-            studentLoad(filename);
-        } else if (strcmp(command, "q") == 0) {
-            break;
-        }
+    while (command !='q') {
         printf("> ");
-    }
+        fgets(str, sizeof(str),stdin);
+        int n=sscanf(str,"%c%s",&command,name);
+        switch(command) {
+            case 'r':
+                if (n == 2) {
+                    //printf("got to remove funct\n");
+                    studentRemove(name);
+                }
+                break;
 
-    return 0;
+
+            case 'g':
+                if (n == 1) {
+                    grade = studentGetAverage();
+                    printf("%.2f\n", grade);
+                } else if (n == 2) {
+                    grade = studentGetGrade(name);
+                    printf("%.2f\n", grade);
+                } else {
+                    printf("Invalid input\n");
+                    break;
+
+
+
+                    case 'p':
+                        if (head == NULL) {
+                            printf("List is empty\n");
+                        } else {
+                            studentPrintList();
+                        }
+                }
+                break;
+
+
+            case 'c':
+                printf("%d\n", studentCount());
+                break;
+
+
+            case 'd':
+                studentDeleteList();
+                break;
+
+
+            case 'l':
+                studentLoad(name);
+                break;
+
+
+            case 'q':
+                break;
+
+
+                return 0;
+        }
+    }
 }
+
