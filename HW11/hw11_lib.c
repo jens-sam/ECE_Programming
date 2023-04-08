@@ -4,12 +4,11 @@
 #include <string.h>
 #include "hw11_lib.h"
 
-
 // Declaring *head as my pointer for the first element in my linked list
 Student *head = NULL;
 
 
-// #1. add a student and grade to the list
+// Adding a student to the list
 void studentAdd(char *name, float grade) {
     Student *new_student = (Student *) malloc(sizeof(Student));
     strcpy(new_student->name, name);
@@ -28,7 +27,7 @@ void studentAdd(char *name, float grade) {
 }
 
 
-// #2. remove a student from the list
+// Removing a student from the list. iterates through list using strcmp. as long as they difference is 0, i.e they are the same. else statement establishes new directions and frees the node.
 void studentRemove(char *name) {
     Student *current = head;
     Student *previous = NULL;
@@ -49,7 +48,7 @@ void studentRemove(char *name) {
 }
 
 
-// #3. find a student by name, return a pointer to him
+//Find a student by name. strcmp compares and when the difference is zero, returning address of student
 Student *studentFind(char *name) {
     Student *current = head;
     while (current != NULL) {
@@ -62,7 +61,7 @@ Student *studentFind(char *name) {
 }
 
 
-// #4: print one student's name and grade (as %.2f)
+//{Print one student's name and grade
 void studentPrint(Student *student) {
     if (student == NULL) {
         printf("Error: NULL student\n");
@@ -72,7 +71,7 @@ void studentPrint(Student *student) {
 }
 
 
-// #5. print all the students names and grades from the list
+//Print all the students names and grades from the list
 void studentPrintList() {
     Student *current = head;
     while (current != NULL) {
@@ -82,19 +81,17 @@ void studentPrintList() {
 }
 
 
-// #6. return the grade for the given student name
+// Return the grade for the given student name
 float studentGetGrade(char *name) {
-    printf("got in the studentgetgradefunction");// delete print statement
     Student *found = studentFind(name);
     if (found != NULL) {
         return found->grade;
     }
-    printf("got through the studentgetgradefunction");// delete print statement
     return -1; // Return -1 if the student is not found
 }
 
 
-// #7. load a file of students in to a list
+// Loading File
 void studentLoad(char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -111,7 +108,7 @@ void studentLoad(char *filename) {
 }
 
 
-// #8. return number of students in the list
+//Counting number of students in the list
 int studentCount() {
     int count = 0;
     Student *current = head;
@@ -123,7 +120,7 @@ int studentCount() {
 }
 
 
-// #9. delete all students from the list and free its memory
+//Remove all students from list. Make sure to free memory once removed
 void studentDeleteList() {
     Student *current = head;
     Student *next;
@@ -136,11 +133,9 @@ void studentDeleteList() {
     head = NULL;
 }
 
-// additional function for get average if no name is given,
-// print the average of all grades
-
+//get average of all students from a list
 float studentGetAverage() {
-    printf("got in the studentgetaverage function"); // delete print statement
+    //printf("got to average");
     int count = 0;
     float sum = 0;
     Student *current = head;
@@ -149,8 +144,5 @@ float studentGetAverage() {
         sum += current->grade;
         current = current->next;
     }
-    printf("got through the studentgetaverage function"); // delete print statement
     return (count == 0) ? 0 : sum / count;
 }
-
-
