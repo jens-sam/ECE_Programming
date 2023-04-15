@@ -1,25 +1,27 @@
+
 #ifndef FAMILY_TREE_H
 #define FAMILY_TREE_H
 
 #include <stdbool.h>
+#include <string.h>
+#include <stdio.h>
 
-typedef struct person {
-    char name[32];
-    struct person *father;
-    struct person *mother;
-} Person;
+struct Person {
+    char father[50];
+    char mother[50];
+    char name[20];
+    struct Person *next;
+    struct Person *prev;
+};
 
-typedef struct list {
-    Person *head;
-    struct list *next;
-} List;
+struct Person *findHead(struct Person *n);
+struct Person *findTail(struct Person *n);
+struct Person *FindPerson(struct Person *n, const char *name);
+struct Person *addToTail(struct Person *n, const char *name, const char *father, const char *mother);
+const char *findFather(struct Person *n, const char *name);
+const char *findMother(struct Person *n, const char *name);
+void findAncestor(struct Person *n, const char *name, int gen);
+void findDescendants(struct Person *n, const char *name, int depth);
+void printAll(struct Person *n);
 
-Person *findPerson(List *list, const char *name);
-bool load(List *list, const char *filename);
-bool printAll(List *list);
-bool printAncestors(List *list, const char *name);
-bool printDescendants(List *list, const char *name);
-bool printSiblings(List *list, const char *name);
-bool printCousins(List *list, const char *name);
-
-#endif
+#endif //FAMILY_TREE_H
